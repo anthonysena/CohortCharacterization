@@ -1,0 +1,39 @@
+Package: CohortCharacterization
+Type: Package
+Title: Generating aggregate statistics for cohorts
+Version: 0.0.1
+Date: 2021-06-08
+Authors@R: c(
+  person("Anthony", "Sena", , "sena@ohdsi.org", role = c("aut", "cre")),
+  person("Chris", "Knoll", role = c("aut"))
+  )
+Maintainer: Anthony Sena <sena@ohdsi.org>
+Description: An R package for aggregate statistics for cohorts using data in the Common Data Model.
+License: Apache License 2.0
+VignetteBuilder: knitr
+URL: https://github.com/anthonysena/CohortCharacterization
+BugReports: https://github.com/anthonysena/CohortCharacterization/issues
+Depends:
+  R (>= 4.0.0),
+  DatabaseConnector (>= 4.0.0),
+  Andromeda
+Imports:
+  methods,
+  dplyr,
+  rJava,
+  jsonlite,
+  SqlRender (>= 1.7.0),
+  ParallelLogger,
+  cli,
+  pillar,
+  readr,
+  rlang,
+  RSQLite,
+  DBI
+Suggests:
+  testthat,
+  knitr,
+  rmarkdown
+NeedsCompilation: no
+RoxygenNote: 7.1.1
+Encoding: UTF-8

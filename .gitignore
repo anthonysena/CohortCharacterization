@@ -20,9 +20,20 @@
 # RStudio files
 .Rproj.user/
 
+# SqlRender
+statement_*.sql
+errorReport.txt
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
+
+#C++ objects
+src/*.o
+src/*.so
+src/*.dll
+/Debug
+standalone/build/*
 
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
@@ -31,9 +42,17 @@ vignettes/*.pdf
 *_cache/
 /cache/
 
+# Java compiled files
+/bin
+/target
+
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
 
 # R Environment Variables
 .Renviron
+/target/
+
+*.tex
+*.log
