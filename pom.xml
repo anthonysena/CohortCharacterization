@@ -18,6 +18,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <src.dir>java</src.dir>
         <test.dir>test</test.dir>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <SqlRender.version>1.7.0</SqlRender.version>
     </properties>
     <distributionManagement>
         <repository>
@@ -38,14 +41,9 @@
     </repositories>
     <dependencies>
         <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20170516</version>
-        </dependency>
-        <dependency>
             <groupId>org.ohdsi.sql</groupId>
             <artifactId>SqlRender</artifactId>
-            <version>1.7.0</version>
+            <version>${SqlRender.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -56,12 +54,8 @@
                 <directory>${src.dir}</directory>
                 <excludes>
                     <exclude>**/*.java</exclude>
-                    <!-- exclude .jardesc file from packaging -->
-                    <exclude>**/*.jardesc</exclude>
                 </excludes>
             </resource>
-            <!-- Note: see resource dir configured via maven-resources-plugin (needed 
-            for m2e support) -->
         </resources>
         <plugins>
             <plugin>
@@ -113,13 +107,14 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
                 <configuration>
+                    <outputDirectory>inst/java</outputDirectory>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin>
+            </plugin>            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -152,6 +147,34 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>inst/java</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>inst/java</directory>
+                            <includes>
+                                <include>**/*.*</include>
+                            </includes>              
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>                            
         </plugins>
     </build>
     <profiles>

@@ -33,9 +33,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONWriter;
 import org.ohdsi.sql.SqlRender;
 
 /**
