@@ -8,28 +8,18 @@
     <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>cohortCharacterization</name>
-    <scm>
-        <connection>scm:git:https://github.com/anthonysena/cohortCharacterization</connection>
-        <developerConnection>scm:git:https://github.com/anthonysena/cohortCharacterization</developerConnection>
-        <url>https://github.com/anthonysena/cohortCharacterization</url>
-        <tag>HEAD</tag>
-    </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <src.dir>java</src.dir>
-        <test.dir>test</test.dir>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <SqlRender.version>1.7.0</SqlRender.version>
     </properties>
     <distributionManagement>
         <repository>
             <id>internal</id>
-            <url>http://repo.ohdsi.org:8085/nexus/content/repositories/releases</url>
+            <url>https://repo.ohdsi.org/nexus/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>snapshots</id>
-            <url>http://repo.ohdsi.org:8085/nexus/content/repositories/snapshots</url>
+            <url>https://repo.ohdsi.org/nexus/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
     <repositories>
@@ -47,17 +37,17 @@
         </dependency>
     </dependencies>
     <build>
-        <!-- sourceDirectory does not follow maven project directory structure -->
-        <sourceDirectory>${src.dir}</sourceDirectory>
-        <resources>
-            <resource>
-                <directory>${src.dir}</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </resource>
-        </resources>
+        <sourceDirectory>${basedir}/java</sourceDirectory>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                  <source>1.8</source>
+                  <target>1.8</target>
+                </configuration>
+            </plugin>   
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.7</version>
@@ -100,6 +90,25 @@
                             </resources>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>copy-doc</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/inst/doc</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>inst/doc</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>**/*.*</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -114,44 +123,33 @@
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin>            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.1</version>
-                <configuration>
-                    <additionalparam>${javadoc.doclint.none}</additionalparam>
-                    <quiet>true</quiet>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.4</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                            <goal>test-jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
-                        <phase>process-sources</phase>
+                      <id>copy-installed</id>
+                      <phase>install</phase>
+                      <goals>
+                        <goal>copy</goal>
+                      </goals>
+                      <configuration>
+                        <artifactItems>
+                          <artifactItem>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <version>${project.version}</version>
+                            <type>${project.packaging}</type>
+                          </artifactItem>
+                        </artifactItems>
+                        <outputDirectory>inst/java</outputDirectory>
+                      </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
@@ -177,15 +175,4 @@
             </plugin>                            
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>java8-disable-strict-javadoc</id>
-            <activation>
-                <jdk>[1.8,)</jdk>
-            </activation>
-            <properties>
-                <javadoc.doclint.none>-Xdoclint:none</javadoc.doclint.none>
-            </properties>
-        </profile>
-    </profiles>
 </project>
