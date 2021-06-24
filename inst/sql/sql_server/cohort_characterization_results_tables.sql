@@ -111,7 +111,7 @@ CREATE TABLE @results_schema.cohort_definition
     cohort_definition_id bigint NOT NULL,
     cohort_name VARCHAR(4000) NOT NULL,
     description VARCHAR(4000),
-    json VARCHAR(MAX)
+    json text
 )
 ;
 
