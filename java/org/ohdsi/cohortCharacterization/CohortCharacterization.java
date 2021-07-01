@@ -86,17 +86,21 @@ public class CohortCharacterization {
 		//System.out.println(createSql(settings, true, "#temp_cohort", "row_id", -1, "cdm_synpuf"));
 		// System.out.println(createSql(getDefaultPrespecAnalyses(), true, "#temp_cohort", "row_id", -1, "cdm_synpuf"));
 		// System.out.println(createSql(getDefaultPrespecTemporalAnalyses(), false, "#temp_cohort", "row_id", -1, "cdm_synpuf"));
-                String sql = loadSqlFile("D:/git/anthonysena/CohortCharacterization/inst", "cohort_characterization_results_tables.sql");
+                String sql = loadSqlFile("D:/git/anthonysena/CohortCharacterization/inst", "/sql/postgresql/", "cohort_characterization_results_tables.sql");
                 System.out.println(sql);
 	}
 
-	public static String loadSqlFile(String packageFolder, String sqlFileName) {
+	public static String loadSqlFile(String packageFolder, String sqlPath, String sqlFileName) {
 		try {
 			InputStream inputStream;
+			String defaultPath = "/sql/sql_server/";
+			if (sqlPath == null) {
+			  sqlPath = defaultPath;
+			}
 			if (packageFolder == null) // Use file in JAR
-				inputStream = CohortCharacterization.class.getResourceAsStream("/inst/sql/sql_server/" + sqlFileName);
+				inputStream = CohortCharacterization.class.getResourceAsStream("/inst" + sqlPath + sqlFileName);
 			else
-				inputStream = new FileInputStream(packageFolder + "/sql/sql_server/" + sqlFileName);
+				inputStream = new FileInputStream(packageFolder + sqlPath + sqlFileName);
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
 			StringBuilder sql = new StringBuilder();
 			String line;

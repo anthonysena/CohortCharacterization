@@ -7,8 +7,8 @@ analysis_ref,end_day,float,No,No,No,Yes
 analysis_ref,is_binary,varchar(1),Yes,No,No,Yes
 analysis_ref,missing_means_zero,varchar(1),No,No,No,Yes
 analysis_ref,study_design_id,bigint,Yes,No,No,Yes
-cohort,cohort_definition_id,bigint,Yes,Yes,No,Yes
-cohort,subject_id,bigint,Yes,Yes,No,Yes
+cohort,cohort_definition_id,bigint,Yes,No,No,Yes
+cohort,subject_id,bigint,Yes,No,No,Yes
 cohort,cohort_start_date,date,Yes,No,No,Yes
 cohort,cohort_end_date,date,Yes,No,No,Yes
 cohort_count,cohort_id,bigint,Yes,Yes,No,Yes
@@ -19,7 +19,7 @@ cohort_definition,cohort_definition_id,bigint,Yes,Yes,No,Yes
 cohort_definition,cohort_name,varchar(4000),Yes,No,No,Yes
 cohort_definition,description,varchar(4000),No,No,No,Yes
 cohort_definition,json,text,No,No,No,Yes
-cohort_definition,sql,text,No,No,No,Yes
+cohort_definition,sql_command,text,No,No,No,Yes
 cohort_xref,cohort_id,bigint,Yes,Yes,No,Yes
 cohort_xref,target_id,bigint,Yes,No,No,Yes
 cohort_xref,target_name,varchar(4000),Yes,No,No,Yes
@@ -69,6 +69,9 @@ database,vocabulary_version,varchar(4000),No,No,Yes,Yes
 database,data_start_date,varchar(4000),No,No,Yes,Yes
 database,data_end_date,varchar(4000),No,No,Yes,Yes
 database,is_meta_analysis,varchar(1),Yes,No,No,Yes
+database,terms_of_use,varchar(4000),No,No,Yes,Yes
+database,citation_req,varchar(4000),No,No,Yes,Yes
+database,publication_req,varchar(4000),No,No,Yes,Yes
 study_design,study_design_id,bigint,Yes,Yes,No,Yes
 study_design,study_design_name,varchar(4000),Yes,No,No,Yes
 study_design,study_design_hash,text,No,No,Yes,Yes
