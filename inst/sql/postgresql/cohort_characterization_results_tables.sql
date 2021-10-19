@@ -1,6 +1,4 @@
-IF OBJECT_ID('@results_schema.analysis_ref', 'U') IS NOT NULL
-  DROP TABLE @results_schema.analysis_ref;
-
+DROP TABLE IF EXISTS @results_schema.analysis_ref;
 CREATE TABLE @results_schema.analysis_ref
 (
     analysis_id bigint NOT NULL,
@@ -11,13 +9,11 @@ CREATE TABLE @results_schema.analysis_ref
     is_binary integer NOT NULL,
     missing_means_zero integer NOT NULL,
     study_design_id bigint NOT NULL,
-	PRIMARY_KEY(analysis_id)
+    PRIMARY KEY(analysis_id)
 )
 ;
 
-IF OBJECT_ID('@results_schema.cohort', 'U') IS NOT NULL
-  DROP TABLE @results_schema.cohort;
-
+DROP TABLE IF EXISTS @results_schema.cohort;
 CREATE TABLE @results_schema.cohort
 (
     cohort_definition_id bigint NOT NULL,
@@ -27,22 +23,18 @@ CREATE TABLE @results_schema.cohort
 )
 ;
 
-IF OBJECT_ID('@results_schema.cohort_count', 'U') IS NOT NULL
-  DROP TABLE @results_schema.cohort_count;
-
+DROP TABLE IF EXISTS @results_schema.cohort_count;
 CREATE TABLE @results_schema.cohort_count
 (
     cohort_id bigint NOT NULL,
     cohort_entries bigint NOT NULL,
     cohort_subjects bigint NOT NULL,
     database_id character varying(255) NOT NULL,
-	PRIMARY_KEY(cohort_id, database_id)
+    PRIMARY KEY(cohort_id, database_id)
 )
 ;
 
-IF OBJECT_ID('@results_schema.cohort_definition', 'U') IS NOT NULL
-  DROP TABLE @results_schema.cohort_definition;
-
+DROP TABLE IF EXISTS @results_schema.cohort_definition;
 CREATE TABLE @results_schema.cohort_definition
 (
     cohort_definition_id bigint NOT NULL,
@@ -50,13 +42,11 @@ CREATE TABLE @results_schema.cohort_definition
     description VARCHAR(4000) NOT NULL,
     json text,
 	sql_command text NOT NULL,
-	PRIMARY_KEY(cohort_definition_id)
+    PRIMARY KEY(cohort_definition_id)
 )
 ;
 
-IF OBJECT_ID('@results_schema.cohort_xref', 'U') IS NOT NULL
-  DROP TABLE @results_schema.cohort_xref;
-
+DROP TABLE IF EXISTS @results_schema.cohort_xref;
 CREATE TABLE @results_schema.cohort_xref
 (
     cohort_id bigint NOT NULL,
@@ -65,13 +55,11 @@ CREATE TABLE @results_schema.cohort_xref
     subgroup_id bigint NOT NULL,
     subgroup_name character varying(4000) NOT NULL,
     cohort_type character varying(4000) NOT NULL,
-	PRIMARY_KEY(cohort_id)
+    PRIMARY KEY(cohort_id)
 )
 ;
 
-IF OBJECT_ID('@results_schema.covariate_ref', 'U') IS NOT NULL
-  DROP TABLE @results_schema.covariate_ref;
-
+DROP TABLE IF EXISTS @results_schema.covariate_ref;
 CREATE TABLE @results_schema.covariate_ref
 (
     covariate_id bigint NOT NULL,
@@ -79,25 +67,21 @@ CREATE TABLE @results_schema.covariate_ref
     covariate_name VARCHAR(4000) NOT NULL,
     analysis_id bigint NOT NULL,
     concept_id bigint,
-	PRIMARY_KEY(covariate_id, covariate_type_id)
+    PRIMARY KEY(covariate_id, covariate_type_id)
 )
 ;
 
-IF OBJECT_ID('@results_schema.covariate_type', 'U') IS NOT NULL
-  DROP TABLE @results_schema.covariate_type;
-
+DROP TABLE IF EXISTS @results_schema.covariate_type;
 CREATE TABLE @results_schema.covariate_type
 (
     covariate_type_id integer NOT NULL,
     covariate_type_name VARCHAR(1000) NOT NULL,
     study_design_id integer NOT NULL,
-	PRIMARY_KEY(covariate_type_id)
+    PRIMARY KEY(covariate_type_id)
 )
 ;
 
-IF OBJECT_ID('@results_schema.covariate_value', 'U') IS NOT NULL
-  DROP TABLE @results_schema.covariate_value;
-
+DROP TABLE IF EXISTS @results_schema.covariate_value;
 CREATE TABLE @results_schema.covariate_value
 (
     cohort_id bigint NOT NULL,
@@ -108,13 +92,11 @@ CREATE TABLE @results_schema.covariate_value
     mean float NOT NULL,
     sd float,
     database_id VARCHAR(1000) NOT NULL,
-    PRIMARY_KEY(cohort_id, covariate_id, covariate_type_id, time_id)
+    PRIMARY KEY(cohort_id, covariate_id, covariate_type_id, time_id, database_id)
 )
 ;
 
-IF OBJECT_ID('@results_schema.covariate_value_dist', 'U') IS NOT NULL
-  DROP TABLE @results_schema.covariate_value_dist;
-
+DROP TABLE IF EXISTS @results_schema.covariate_value_dist;
 CREATE TABLE @results_schema.covariate_value_dist
 (
     cohort_id bigint NOT NULL,
@@ -132,22 +114,20 @@ CREATE TABLE @results_schema.covariate_value_dist
     p_75_value bigint NOT NULL,
     p_90_value bigint NOT NULL,
     database_id VARCHAR(1000) NOT NULL,
-    
+    PRIMARY KEY(cohort_id, covariate_id, covariate_type_id, time_id, database_id)
 );
 
-IF OBJECT_ID('@results_schema.database', 'U') IS NOT NULL
-  DROP TABLE @results_schema.database;
-
+DROP TABLE IF EXISTS @results_schema.database;
 CREATE TABLE @results_schema.database
 (
     database_id VARCHAR(1000) NOT NULL,
     database_name VARCHAR(4000) NOT NULL,
     description VARCHAR(4000),
-	database_source_documentation_reference VARCHAR(4000),
-	database_cdm_etl_reference VARCHAR(4000),
-	database_source_release_date VARCHAR(4000),
-	database_cdm_release_date VARCHAR(4000),
-	database_cdm_version VARCHAR(4000),
+  	database_source_documentation_reference VARCHAR(4000),
+  	database_cdm_etl_reference VARCHAR(4000),
+  	database_source_release_date VARCHAR(4000),
+  	database_cdm_release_date VARCHAR(4000),
+  	database_cdm_version VARCHAR(4000),
     vocabulary_version VARCHAR(100),
     data_start_date VARCHAR(100),
     data_end_date VARCHAR(100),
@@ -155,25 +135,21 @@ CREATE TABLE @results_schema.database
     terms_of_use VARCHAR(4000),
     citation_req VARCHAR(4000),
     publication_req VARCHAR(4000),
-	PRIMARY_KEY(database_id)
+    PRIMARY KEY(database_id)
 )
 ;
 
-IF OBJECT_ID('@results_schema.study_design', 'U') IS NOT NULL
-  DROP TABLE @results_schema.study_design;
-  
+DROP TABLE IF EXISTS @results_schema.study_design;
 CREATE TABLE @results_schema.study_design
 (
     study_design_id bigint NOT NULL,
     study_design_name VARCHAR(4000) NOT NULL,
     study_design_hash VARCHAR(4000) NOT NULL,
-	PRIMARY_KEY(study_design_id)
+    PRIMARY KEY(study_design_id)
 )
 ;
 
-IF OBJECT_ID('@results_schema.time_ref', 'U') IS NOT NULL
-  DROP TABLE @results_schema.time_ref;
-
+DROP TABLE IF EXISTS @results_schema.time_ref;
 CREATE TABLE @results_schema.time_ref
 (
     time_id bigint NOT NULL,
@@ -181,16 +157,16 @@ CREATE TABLE @results_schema.time_ref
     time_end integer NOT NULL,
     window_type_id integer NOT NULL,
     study_design_id bigint,
-    time_window_name VARCHAR(1000)
+    time_window_name VARCHAR(1000),
+    PRIMARY KEY(time_id)    
 )
 ;
 
-IF OBJECT_ID('@results_schema.window_type_ref', 'U') IS NOT NULL
-  DROP TABLE @results_schema.window_type_ref;
-
+DROP TABLE IF EXISTS @results_schema.window_type_ref;
 CREATE TABLE @results_schema.window_type_ref
 (
     window_type_id integer NOT NULL,
-    window_type_name VARCHAR(1000) NOT NULL
+    window_type_name VARCHAR(1000) NOT NULL,
+    PRIMARY KEY(window_type_id)    
 )
 ;
